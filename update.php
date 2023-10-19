@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>connexion</title>
+    <meta name="viewport" content="width=h1, initial-scale=1.0">
+    <title>update</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
 </head>
 <body class=body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -40,19 +39,23 @@
     </div>
   </div>
 </nav>
-    <h1>connexion</h1>
-
+    <?php $id = $_GET["id"] ?>
+    <?php $nom = $_GET["nom"] ?>
+    <h1>Mettre à jour son compte</h1>
+    <hr>
     <form action="" method="post">
-    <label for="id">identifiant</label>
-    <input type="text" name="id">
-    <label for="mdp">mot de passe</label>
+    <label for="id">ID</label>
+    <input type="text" name="id" value="<?php echo($id)?>">
+    <label for="id">nouveau nom</label>
+    <input type="text" name="nom" value="<?php echo($nom)?>">
+    <label for="mdp">nouveau mot de passe</label>
     <input type="text" name="mdp">
     <button type="submit">valider</button>
     </form>
 </body>
 </html>
-<?php
 
+<?php
 $servername = 'localhost';
 $username = 'root';
 $password = '';
@@ -68,32 +71,17 @@ catch(PDOException $e){
 }
 
 $id = $_POST["id"];
-$mdp = $_POST["mdp"];
+$new_name = $_POST["nom"];
+$new_mdp = $_POST["mdp"];
 
-$sqlQuery = "SELECT * FROM test WHERE usename ='".$id."'";
+if(isset($id) && isset($new_name) && isset($new_mdp)){
+$sqlQuery = "UPDATE test SET usename = '".$new_name."' , mdp = '".$new_mdp."' WHERE  id = '".$id."'";
 $RecipesStatement = $conn->prepare($sqlQuery);
 $RecipesStatement->execute();
 $recipes = $RecipesStatement->fetchAll();
-
-// // var_dump($recipesId[0]["usename"]);
-
-// // var_dump($recipesMdp[0]["mdp"]);
-
-$bdId = $recipes[0]["usename"];
-$bdMdp = $recipes[0]["mdp"];
-
-
-if($bdId==$id && $bdMdp==$mdp){
-    var_dump($bdId);
-    // header('Location: http://localhost/connexion/menu.php');
 }
+// var_dump($new_name);
 
-//  INSERT INTO test VALUES ($usename , $mdp)
-?>
-<hr>
-<?php
-// echo "<pre>";
-// var_dump($recipesUsename);
-// echo "</pre>";
+
 ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

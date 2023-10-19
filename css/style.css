@@ -47,3 +47,22 @@
     background-color: grey;
     border-radius: 10%;
 }
+
+table,
+td {
+  border: 1px solid #333;
+}
+
+thead,
+tfoot {
+  background-color: #333;
+  color: #fff;
+}
+
+#label{
+    margin-left: 20px;
+}
+
+.body{
+    background-color: #adb5bd;
+}

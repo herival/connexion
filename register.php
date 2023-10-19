@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>connexion</title>
+    <title>register</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
 </head>
 <body class=body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -40,18 +39,22 @@
     </div>
   </div>
 </nav>
-    <h1>connexion</h1>
+    <h1>enregistrement</h1>
 
     <form action="" method="post">
     <label for="id">identifiant</label>
-    <input type="text" name="id">
+    <input type="text" name="id" class='shadow p-3 mb-5 bg-body rounded'>
     <label for="mdp">mot de passe</label>
-    <input type="text" name="mdp">
-    <button type="submit">valider</button>
+    <input type="text" name="mdp" class='shadow p-3 mb-5 bg-body rounded'>
+    <button type="submit" class='shadow p-3 mb-5 bg-body rounded'>valider</button>
     </form>
+
 </body>
 </html>
 <?php
+
+$id = $_POST["id"];
+$mdp = $_POST["mdp"];
 
 $servername = 'localhost';
 $username = 'root';
@@ -67,33 +70,16 @@ catch(PDOException $e){
   echo "Erreur : " . $e->getMessage();
 }
 
-$id = $_POST["id"];
-$mdp = $_POST["mdp"];
+var_dump($id);
+var_dump($mdp);
 
-$sqlQuery = "SELECT * FROM test WHERE usename ='".$id."'";
-$RecipesStatement = $conn->prepare($sqlQuery);
-$RecipesStatement->execute();
-$recipes = $RecipesStatement->fetchAll();
-
-// // var_dump($recipesId[0]["usename"]);
-
-// // var_dump($recipesMdp[0]["mdp"]);
-
-$bdId = $recipes[0]["usename"];
-$bdMdp = $recipes[0]["mdp"];
-
-
-if($bdId==$id && $bdMdp==$mdp){
-    var_dump($bdId);
-    // header('Location: http://localhost/connexion/menu.php');
+if(isset($id) && isset($mdp)){
+    $sqlQuery = "INSERT INTO `test` (`id`, `usename`, `mdp`) VALUES (NULL,'".$id."','".$mdp."')";
+    $RecipesStatement = $conn->prepare($sqlQuery);
+    $RecipesStatement->execute();
+    $recipes = $RecipesStatement->fetchAll();
 }
 
-//  INSERT INTO test VALUES ($usename , $mdp)
-?>
-<hr>
-<?php
-// echo "<pre>";
-// var_dump($recipesUsename);
-// echo "</pre>";
+
 ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>connexion</title>
+    <title>tableau des utilisateurs</title>
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body class=body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -40,17 +40,8 @@
     </div>
   </div>
 </nav>
-    <h1>connexion</h1>
-
-    <form action="" method="post">
-    <label for="id">identifiant</label>
-    <input type="text" name="id">
-    <label for="mdp">mot de passe</label>
-    <input type="text" name="mdp">
-    <button type="submit">valider</button>
-    </form>
+  <h1>Tableau des utilisateurs</h1>
 </body>
-</html>
 <?php
 
 $servername = 'localhost';
@@ -67,33 +58,36 @@ catch(PDOException $e){
   echo "Erreur : " . $e->getMessage();
 }
 
-$id = $_POST["id"];
-$mdp = $_POST["mdp"];
-
-$sqlQuery = "SELECT * FROM test WHERE usename ='".$id."'";
+$sqlQuery = "SELECT * FROM test";
 $RecipesStatement = $conn->prepare($sqlQuery);
 $RecipesStatement->execute();
 $recipes = $RecipesStatement->fetchAll();
 
-// // var_dump($recipesId[0]["usename"]);
-
-// // var_dump($recipesMdp[0]["mdp"]);
-
-$bdId = $recipes[0]["usename"];
-$bdMdp = $recipes[0]["mdp"];
-
-
-if($bdId==$id && $bdMdp==$mdp){
-    var_dump($bdId);
-    // header('Location: http://localhost/connexion/menu.php');
-}
-
-//  INSERT INTO test VALUES ($usename , $mdp)
 ?>
-<hr>
-<?php
-// echo "<pre>";
-// var_dump($recipesUsename);
-// echo "</pre>";
-?>
+
+<table class="table table-hover shadow p-3 mb-5 bg-body rounded" >
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">nom</th>
+      <th scope="col">mot de passe</th>
+      <th scope="col">modifier</th>
+      <th scope="col">supprimer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach($recipes as $value){ ?>
+    <tr>
+      <th scope="row"><?php echo($value["id"]) ?></th>
+      <td><?php echo($value["usename"]) ?></td>
+      <td><?php echo($value["mdp"]) ?></td>
+      <td><a class ="btn btn-success" href="update.php?id=<?php echo($value["id"]) ?>&nom=<?php echo($value["usename"])?>">modifier</a>
+      <td><a class ="btn btn-danger" href="delete.php?id=<?php echo($value["id"]) ?>&nom=<?php echo($value["usename"])?>">supprimer</a>
+    </tr>
+    <?php } ?>
+  </tbody>
+</table>
+</html>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+
